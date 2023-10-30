@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sy.equipmentserver.dao.TbEquipmentMapper" >
+  <resultMap id="BaseResultMap" type="com.sy.equipmentserver.pojo.TbEquipment" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="equipment" property="equipment" jdbcType="VARCHAR" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="website" property="website" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_equipment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sy.equipmentserver.pojo.TbEquipment" >
+    insert into tb_equipment (equipment, company,logo, number, website)
+    values (#{equipment,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR},#{logo,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, #{website,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.sy.equipmentserver.pojo.TbEquipment" >
+    update tb_equipment
+    set equipment = #{equipment,jdbcType=VARCHAR},
+      company = #{company,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      website = #{website,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, equipment, company, logo, number, website
+    from tb_equipment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, equipment, company, logo, number, website
+    from tb_equipment
+  </select>
+  <select id="listAllByPage" resultMap="BaseResultMap">
+    select * from tb_equipment limit #{start},#{pageSize}
+  </select>
+  <delete id="deleteBatch">
+    delete  from  tb_equipment where id in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+</mapper>
